@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Admin add product page</title>
+        <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    </head>
+    <style>
+    
+    </style>
+    <body>
+            <div class="content-wrapper">
+                <div class="container">
+                    <div class="row pad-botm">
+                        <div class="col-md-12">
+                            <h4 class="header-line">Add Gym plan</h4>
+                        </div>
+                    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">Add Gym Plan</div>
+                            <div class="panel-body">
+                                <form action="GPlan" method="post">
+                                    <div class="form-group">
+                                        <label>Plan Name</label> <input class="form-control" type="text" name="pname" required />
+                                    </div>
+                                     <div class="form-group">
+                                        <label>Price</label> <input class="form-control" type="number" name="price" required/>
+                                    </div>
+                                     <div class="form-group">
+                                        <label>Duration</label> <input class="form-control" type="text" name="duration" required/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Benifits</label> <input class="form-control" type="text" style="min-height: 100px;" name="benifit" required/>
+                                    </div>
+                                    <button type="submit" class="btn btn-success" >Add plan</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+    </body>
+</html>

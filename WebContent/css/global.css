@@ -1,0 +1,154 @@
+
+    *{margin:0;padding:0;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;font-smooth:always;-webkit-font-smoothing:subpixel-antialiased}
+    html{overflow-y:scroll;-webkit-text-size-adjust:none}
+    img{border:none;max-width:100%;line-height:0}
+    ol,
+    ul{list-style:none}
+    article,
+    aside,
+    details,
+    figcaption,
+    figure,
+    footer,
+    header,
+    hgroup,
+    menu,
+    nav,
+    section,
+    canvas{display:block}
+    input[type="submit"],
+    button::-moz-focus-inner{border:0;padding:0}
+    html{font-family:"Calibri W01 Regular 904604", tahoma, arial, helvetica, verdana, sans-serif;font-size:62.5%;line-height:2em}
+    body{color:#7a7a7a;font-size:16px;font-size:1.6rem}
+    a:link,
+    a:visited,
+    a:hover,
+    a:active{color:#c8102e;text-decoration:none;outline:none}
+    address{font-style:normal;margin:0 0 1em}
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    cite{font-family:'SohoGothicPro-Light';line-height:1em;font-weight:normal}
+    h1,
+    .half-hero h2,.homepage-hero h2{color:#fff;font-family:'SohoGothicPro-BoldItalic';font-size:30px;font-size:3rem;position:relative;text-transform:uppercase;margin:0 0 .5em}
+    .half-hero h2{margin:0 0 .5em}
+    h2{font-family:'SohoGothicPro-Regular';font-size:3em;margin:0 0 20px 0;text-transform:uppercase}
+    p{margin:0 0 1em 0}
+    input.btn-default,
+    button.btn-default{padding:.66667em;text-align:center;border-style:none;border-width:0;cursor:pointer}
+    .lead{font-family:"Calibri W01 Regular 904604";line-height:1.2em;color:#5b5d63;margin-left:auto;margin-right:auto}
+    table{border-collapse:collapse;width:100%}
+  
+    @media screen and (max-width:640px){.flash-wrapper{left:-45%;top:70px;width:90%}
+    }
+    .flash-wrapper .flash-alert{width:75%;min-height:150px;margin:0 auto;padding:30px;text-align:left;background-color:#fff}
+    @media screen and (max-width:640px){.flash-wrapper .flash-alert{width:100%}
+    }
+    .flash-wrapper .flash-alert .close{float:right}
+    .flash-wrapper .flash-alert .close a{display:block;width:21px;height:21px;text-indent:-9999em;background:url("../images/ff-sprite.png") no-repeat 0 -390px #fff}
+    .flash-wrapper .flash-alert .close a:hover{background:url("../images/ff-sprite.png") no-repeat 0 -420px #fff}
+    .flash-wrapper .flash-alert .close a:active{background:url("../images/ff-sprite.png") no-repeat 0 -450px #fff}
+    .flash-wrapper .flash-alert .title{margin-bottom:15px;margin-right:100px;font-family:"SohoGothicPro-Medium";font-size:18px;font-size:1.8rem;text-transform:uppercase}
+    .flash-wrapper .flash-alert p{margin:0;color:#000;background-color:#fff;text-shadow:none;font-size:16px;font-size:1.6rem}
+    .flash-alert-overlay{width:100%;height:100%;overflow:hidden;position:fixed;top:0;left:0;z-index:9999;background:#000;opacity:.7}
+    .flash-alert-fixed{position:fixed}
+    .float-container{display:block;overflow:auto;float:none;width:auto}
+    .deleted{background-color:#c8102e!important;color:#fff!important}
+    .hidden{display:none}
+    .section{width:100%;text-align:center}
+    .section h1{/*font-size:40px;font-size:4rem;*/text-align:center; font-size:35px;font-size:3.5rem;}
+    .section h2{font-size:30px;font-size:3rem;text-align:center}
+  
+    @media screen and (min-width:640px){
+    .section .section-inner{padding-top:50px;padding-bottom:50px;}
+    }
+    
+    .section .section-inner h2{color:#343538}
+    .section .section-inner .content-block-simple{padding:20px}
+    .section .section-inner .content-block-simple>:last-child{margin-bottom:0}
+    .section .section-inner .content-block-simple .lead{font-size:20px;font-size:2rem}
+    .section .section-inner .content-block>:last-child{margin-bottom:0}
+    .section .section-inner .content-block.block-location{padding-top:30px}
+    .section .section-inner>p,
+    .section .section-inner>p.lead{margin:0 10% 3em 10%;margin:0 10% 3rem 10%}
+    .section .section-inner:last-child{margin-bottom:0}
+    .section .section+.section .section-inner{padding-top:0}
+    .section.section-colour .content-block{background:#fff;color:#7a7a7a}
+    .section.section-colour-light{background:#ededed}
+    .section.section-colour-dark{background:#484a56 url("../images/bg-dark-stripes.png") no-repeat scroll left top;color:#fff}
+    .section.section-colour-dark .section-inner h2,
+    .section.section-colour-dark .section-inner .lead{color:#fff}
+    .section.section-colour-dark a:link,
+    .section.section-colour-dark a:visited,
+    .section.section-colour-dark a:hover,
+    .section.section-colour-dark a:active{color:#c8102e}
+    .section.section-colour-dark .btn-default a:link,
+    .section.section-colour-dark .btn-default a:visited,
+    .section.section-colour-dark .btn-default a:hover,
+    .section.section-colour-dark .btn-default a:active{color:#fff}
+    .section.section-colour-dark .btn-default.inverse a:link,
+    .section.section-colour-dark .btn-default.inverse a:visited,
+    .section.section-colour-dark .btn-default.inverse a:hover,
+    .section.section-colour-dark .btn-default.inverse a:active{color:#c8102e}
+
+    @media screen and (min-width:1200px){.section-intro .content-block{padding-top:30px;padding-bottom:30px}
+    }
+    .secondary-nav-wrapper{border-bottom:5px solid #c8102e;overflow:hidden;width:100%}
+    .secondary-nav{font-family:"SohoGothicPro-Medium"}
+    .secondary-nav ul{list-style:none;background:#ededed;text-align:center}
+    .secondary-nav ul li{display:inline-block;border-right:1px solid #e2e2e2}
+    .secondary-nav ul li a{color:#343538}
+    .secondary-nav ul li:first-child{border-left:1px solid #e2e2e2}
+    .secondary-nav.stuck{position:fixed;top:50px;z-index:9997;width:100%}
+   
+    @media screen and (min-width:640px){.gallery .thumb{width:16.66%}
+    } 
+    #hero{background-color:#e7e7e7;background-image:url(../images/placeholders/FREESTYLE-22-WEB-1400-x-650.jpg);background-size:cover;background-repeat:no-repeat;background-position:center center;padding:0}
+    #hero .section-inner{margin-top:0;margin-bottom:0;padding:50px 30px;z-index:110}
+    #hero h2{padding:0;margin:0;font-size:35px;line-height:1;word-wrap:break-word}
+    #hero p.subtitle{margin:0;margin-bottom:30px;font-family:"SohoGothicPro-Medium";font-size:16px;line-height:20px;color:#fff}
+    #hero p.btn-default{margin:0;margin-bottom:0!important;margin-left:auto;margin-right:auto}
+    
+    .page-node-12367 #hero, .page-node-12368 #hero, .page-node-12369 #hero, .page-node-13471 #hero, .page-node-13472 #hero{background-position:center top;}
+    @media screen and (min-width:1240px){#hero .section-inner{padding:18% 20.5%}
+    #hero h2{font-size:70px}
+    #hero p.subtitle{font-size:20px;line-height:28px}
+    }
+
+    @media screen and (max-width:640px){.share span{display:none}
+    }
+    .row{display:table;margin:0 auto}
+    .row .col{display:table-cell;max-width:330px;padding:10px 20px;vertical-align:top}
+    .row .col h3{font-size:20px;font-size:2rem;margin:0 10px 20px;text-transform:uppercase;font-family:"SohoGothicPro-Medium"}
+    .row.col-2{width:100%}
+    .row.col-2 address,
+    .row.col-2 ul{margin:0 0 30px 30px}
+    .row.col-2 .col{width:50%;max-width:100%}
+    .row.col-2 .col .col-sidebar{display:inline-block;width:100px;margin-right:32px;vertical-align:top}
+    .row.col-2 .col .col-content{display:inline-block}
+    .row.col-2 .col ul{margin-left:10px}
+    .row.col-2 .col ul.bullets{list-style:disc;margin-left:30px}
+    .row.col-2 .col .btn-default{display:block}
+    .row.col-2 .col p.btn-default,
+    .row.col-2 .col .col p.btn-default .col .btn-default{display:block}
+    .row.col-3 .col{width:33%;max-width:100%;text-align:left}
+    .row.col-3 .col h2,
+    .row.col-3 .col h3,
+    .row.col-3 .col p{margin-left:10px}
+    .row.col-4 .col{width:33%;max-width:240px;text-align:left}
+    .row.col-4 .col h3,
+    .row.col-4 .col p{margin-left:10px;text-align:center}
+    .row.copy .col h3{margin:0 10px 20px}
+    .row.flushed-col{background-color:transparent}
+    .row.flushed-col .col{padding:0;max-width:399px;text-align:left}
+    .row.flushed-col .col .image img{max-width:99%;max-height:100%}
+    .row.flushed-col .col .copy{max-width:99%;padding:20px 20px 0 20px;background-color:#fff}
+    .row.flushed-col .col .copy .btn-default{width:auto}
+    .col>h2,
+    .col>h3,
+    .col>p,
+    .col>ul{text-align:center}
+ 
