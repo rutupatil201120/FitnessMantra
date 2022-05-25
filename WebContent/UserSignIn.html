@@ -2,7 +2,8 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>User login</title>
+<title>Fitness Mantra</title>
+<link rel="icon" type="image/x-icon" href="img/fevicon.png">
 </head>
 <style>
 * {
@@ -15,12 +16,14 @@ body {
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	font-family: 'Montserrat', sans-serif;
+	font-family: sans-serif;
+	overflow: hidden;
 	height: 100vh;
 	margin: -20px 0 50px;
 	background-image: url("img/usignin.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
+	user-select: none;
 }
 
 h1 {
@@ -144,7 +147,7 @@ input {
 
 	<div class="container" id="container">
 		<div class="form-container sign-in-container">
-			<form action="Login" method="Post">
+			<form action="login" method="Post">
 				<h1>Sign in</h1>
 				<br> <input type="text" placeholder="Username" name="username">
 				<input type="password" placeholder="Password" name="password">

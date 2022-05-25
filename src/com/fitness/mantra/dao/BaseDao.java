@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class BaseDao {
 
-	private static String dbUrl = "jdbc:mysql://localhost:3306/mydb";
+	private static String dbUrl = "jdbc:mysql://localhost:3306/gym";
 	private static String dbUname = "root";
 	private static String dbPassword = "test123";
 	private static String dbDriver = "com.mysql.cj.jdbc.Driver";

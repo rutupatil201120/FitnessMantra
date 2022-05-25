@@ -2,44 +2,59 @@ package com.fitness.mantra.model;
 
 public class User {
 
-	private String fname, lname, uname, email, password, cpassword;
+	private int id;
+	private String firstName, lastName, userName, email, password, isAdmin = "N";
 
 	public User() {
 		super();
 	}
 
-	public User(String fname, String lname, String uname, String email, String password, String cpassword) {
+	public User(String userName, String password) {
 		super();
-		this.fname = fname;
-		this.lname = lname;
-		this.uname = uname;
+		this.userName = userName;
+		this.password = password;
+	}
+
+	public User(int id, String firstName, String lastName, String userName, String email, String password) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.userName = userName;
 		this.email = email;
 		this.password = password;
-		this.cpassword = cpassword;
 	}
 
-	public String getFname() {
-		return fname;
+	public int getId() {
+		return id;
 	}
 
-	public void setFname(String fname) {
-		this.fname = fname;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public String getLname() {
-		return lname;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setLname(String lname) {
-		this.lname = lname;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getUname() {
-		return uname;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setUname(String uname) {
-		this.uname = uname;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getEmail() {
@@ -58,12 +73,15 @@ public class User {
 		this.password = password;
 	}
 
-	public String getCpassword() {
-		return cpassword;
+	public String getIsAdmin() {
+		return isAdmin;
 	}
 
-	public void setCpassword(String cpassword) {
-		this.cpassword = cpassword;
+	public void setIsAdmin(String isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 
+	public boolean isAdmin() {
+		return "Y".equalsIgnoreCase(isAdmin);
+	}
 }

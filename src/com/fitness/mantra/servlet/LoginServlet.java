@@ -1,6 +1,7 @@
 package com.fitness.mantra.servlet;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,24 +9,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.fitness.mantra.dao.LoginDao;
-import com.fitness.mantra.model.LoginBean;
+import com.fitness.mantra.dao.UserDao;
+import com.fitness.mantra.model.User;
 
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/Login")
+@WebServlet(urlPatterns = { "/login", "/logout" })
 public class LoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	LoginBean loginBean = null;
+	private final UserDao userDao;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public LoginServlet() {
 		super();
-		this.loginBean = new LoginBean();
+		this.userDao = new UserDao();
 	}
 
 	/**
@@ -34,7 +35,12 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.sendRedirect("UserSignIn.html");
+		if ("/logout".equals(request.getServletPath())) {
+			request.getSession().invalidate();
+			response.sendRedirect(request.getContextPath());
+		} else {
+			redirectToHomePage(request, response);
+		}
 	}
 
 	/**
@@ -44,22 +50,28 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		LoginDao loginDao = new LoginDao();
 
-		String username = request.getParameter("username");
+		String userName = request.getParameter("username");
 		String password = request.getParameter("password");
 
-		loginBean.setUsername(username);
-		loginBean.setPassword(password);
+		User user = new User(userName, password);
 
-		if (loginDao.validate(loginBean)) {
-			session.setAttribute("username", username);
-			response.sendRedirect("UserHome.html");
+		if (userDao.validate(user)) {
+			session.setAttribute("user", user);
+		}
+
+		redirectToHomePage(request, response);
+	}
+
+	private void redirectToHomePage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		if (user != null) {
+			response.sendRedirect(user.isAdmin() ? "admin" : "user");
 		} else {
 			session.invalidate();
 			response.sendRedirect("UserSignIn.html");
 		}
-
 	}
 
 }
