@@ -1,87 +1,49 @@
 package com.fitness.mantra.model;
 
+import javax.servlet.http.HttpServletRequest;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class User {
 
-	private int id;
-	private String firstName, lastName, userName, email, password, isAdmin = "N";
+	private Integer id;
+	private String firstName;
+	private String lastName;
+	private String contactNumber;
+	private String email;
+	private String birthDate;
+	private String gender;
+	private String timeSlot;
+	private Integer planId;
+	private String password;
+	private String isAdmin;
 
-	public User() {
+	public User(String email, String password) {
 		super();
-	}
-
-	public User(String userName, String password) {
-		super();
-		this.userName = userName;
-		this.password = password;
-	}
-
-	public User(int id, String firstName, String lastName, String userName, String email, String password) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.userName = userName;
 		this.email = email;
 		this.password = password;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getIsAdmin() {
-		return isAdmin;
-	}
-
-	public void setIsAdmin(String isAdmin) {
-		this.isAdmin = isAdmin;
+	public User(HttpServletRequest request) {
+		this.id = request.getParameter("id") != null ? Integer.parseInt(request.getParameter("id")) : null;
+		this.firstName = request.getParameter("firstName");
+		this.lastName = request.getParameter("lastName");
+		this.contactNumber = request.getParameter("contactNumber");
+		this.email = request.getParameter("email");
+		this.birthDate = request.getParameter("birthDate");
+		this.gender = request.getParameter("gender");
+		this.timeSlot = request.getParameter("timeSlot");
+		this.planId = request.getParameter("planId") != null ? Integer.parseInt(request.getParameter("planId")) : null;
+		this.password = request.getParameter("password");
 	}
 
 	public boolean isAdmin() {
 		return "Y".equalsIgnoreCase(isAdmin);
 	}
+
 }

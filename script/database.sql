@@ -10,3 +10,8 @@ CREATE TABLE `gym`.`user` (
 
 INSERT INTO `gym`.`user` (`id`, `user_name`, `first_name`, `last_name`, `email`, `password`, `is_admin`) VALUES ('1', 'admin', 'Admin', 'Last', 'admin.last@gmail.com', 'admin', 'Y');
 INSERT INTO `gym`.`user` (`id`, `user_name`, `first_name`, `last_name`, `email`, `password`, `is_admin`) VALUES ('2', 'user', 'User', 'Last', 'user.last@gmail.com', 'user', 'N');
+
+ALTER TABLE `gym`.`payments` 
+ADD CONSTRAINT `fk_payments_user_id`
+  FOREIGN KEY (`user_id`)
+  REFERENCES `gym`.`users` (`id`)

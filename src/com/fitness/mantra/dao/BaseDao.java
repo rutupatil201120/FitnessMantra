@@ -20,7 +20,7 @@ public class BaseDao {
 		}
 	}
 
-	public static Connection getConnection() {
+	protected static Connection getConnection() {
 		Connection con = null;
 		try {
 			loadDriver();

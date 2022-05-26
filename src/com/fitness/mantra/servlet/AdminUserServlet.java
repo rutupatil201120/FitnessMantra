@@ -2,6 +2,7 @@ package com.fitness.mantra.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,15 +21,15 @@ import com.fitness.mantra.model.User;
  * application, handling all requests from the user.
  */
 
-@WebServlet(urlPatterns = { "/user/", "/user/new", "/user/update" })
-public class UserServlet extends HttpServlet {
-
+@WebServlet(urlPatterns = { "/admin/", "/admin/user-list", "/admin/update-user", "/admin/delete-user" })
+public class AdminUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private final UsersDao usersDao;
+
+	private final UsersDao userDao;
 	private final PlansDao plansDao;
 
-	public UserServlet() {
-		usersDao = new UsersDao();
+	public AdminUserServlet() {
+		userDao = new UsersDao();
 		plansDao = new PlansDao();
 	}
 
@@ -48,27 +49,21 @@ public class UserServlet extends HttpServlet {
 
 		try {
 			switch (action) {
-			case "/user/new":
-				handleNew(request, response);
+			case "/admin/delete-user":
+				deleteUser(request, response);
 				break;
-			case "/user/update":
+			case "/admin/update-user":
 				handleUpdate(request, response);
 				break;
+			case "/admin/user-list":
+				listUser(request, response);
+				break;
 			default:
-				showUserPage(request, response, null);
+				adminHome(request, response);
 				break;
 			}
 		} catch (SQLException ex) {
 			throw new ServletException(ex);
-		}
-	}
-
-	private void handleNew(HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, ServletException, IOException {
-		if (isPostRequest(request)) {
-			insertUser(request, response);
-		} else {
-			showUserPage(request, response, "UserDetails.jsp");
 		}
 	}
 
@@ -85,53 +80,54 @@ public class UserServlet extends HttpServlet {
 		return "POST".equals(request.getMethod());
 	}
 
+	private void adminHome(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("AdminHome.jsp");
+		dispatcher.forward(request, response);
+	}
+
+	private void listUser(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		List<User> listUser = userDao.selectAllUsers();
+		request.setAttribute("users", listUser);
+		showAdminPage(request, response, "AdminUserList.jsp");
+	}
+
 	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, ServletException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
-		User existingUser = usersDao.selectUser(id);
+		User existingUser = userDao.selectUser(id);
 		request.setAttribute("user", existingUser);
-		showUserPage(request, response, "UserForm.jsp");
-	}
+		showAdminPage(request, response, "AdminUserUpdate.jsp");
 
-	private void insertUser(HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, IOException, ServletException {
-		User user = new User(request);
-		if (!usersDao.checkIfUserExist(user)) {
-			usersDao.insertUser(user);
-			request.getSession().setAttribute("user", user);
-			redirectToHome(request, response);
-		} else {
-			request.setAttribute("user", user);
-			request.setAttribute("errorMessage", "Email id alreay exist.");
-			request.setAttribute("errorField", "email");
-			showUserPage(request, response, null);
-		}
 	}
 
 	private void updateUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-		usersDao.updateUser(new User(request));
-		redirectToHome(request, response);
+		userDao.updateUser(new User(request));
+		redirectToAdmin(request, response, "user-list");
 	}
 
-	private void showUserPage(HttpServletRequest request, HttpServletResponse response, String page)
+	private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		userDao.deleteUser(id);
+		redirectToAdmin(request, response, "user-list");
+	}
+
+	private void showAdminPage(HttpServletRequest request, HttpServletResponse response, String page)
 			throws ServletException, IOException {
-		if (page == null || "UserDetails.jsp".equals(page)) {
+		if ("AdminUserUpdate.jsp".equals(page)) {
 			request.setAttribute("genders", CommonConstants.GENDERS);
 			request.setAttribute("timeSlots", CommonConstants.TIME_SLOTS);
 			request.setAttribute("plans", plansDao.selectAllPlans());
 		}
 
-		if (request.getSession().getAttribute("user") != null) {
-			request.setAttribute("user", request.getSession().getAttribute("user"));
-		}
-
 		request.setAttribute("page", page);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("UserHome.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("AdminHome.jsp");
 		dispatcher.forward(request, response);
 	}
 
-	private void redirectToHome(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		response.sendRedirect(request.getContextPath() + "/user/");
+	private void redirectToAdmin(HttpServletRequest request, HttpServletResponse response, String page)
+			throws IOException {
+		response.sendRedirect(request.getContextPath() + "/admin/" + page);
 	}
-
 }

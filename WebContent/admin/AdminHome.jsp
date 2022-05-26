@@ -8,11 +8,10 @@
 <link rel="icon" type="image/x-icon"
 	href="${pageContext.request.contextPath}/img/fevicon.png">
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+	href="${pageContext.request.contextPath}/css/all.min.css" />
 <link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
+	href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 </head>
 <style>
 * {
@@ -24,8 +23,8 @@
 
 body {
 	font-family: sans-serif;
-	overflow: hidden;
 	user-select: none;
+	background: black
 }
 
 nav .logo {
@@ -121,13 +120,16 @@ section {
 					Details</a></li>
 			<li><a href="#">Payment History</a></li>
 			<li><a href="#">Equipment</a></li>
-			<li><a href="#">Plans</a></li>
+			<li><a href="<%=request.getContextPath()%>/admin/plan-list">Plans</a></li>
 			<li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>
 		</ul>
 	</nav>
 	<section>
 		<c:if test="${page != null}">
 			<jsp:include page="${page}" />
+		</c:if>
+		<c:if test="${message != null}">
+			<div class="alert alert-danger" role="alert">${message}</div>
 		</c:if>
 	</section>
 </body>

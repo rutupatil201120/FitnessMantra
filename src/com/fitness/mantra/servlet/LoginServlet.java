@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.fitness.mantra.dao.UserDao;
+import com.fitness.mantra.dao.UsersDao;
 import com.fitness.mantra.model.User;
 
 /**
@@ -19,14 +19,14 @@ import com.fitness.mantra.model.User;
 public class LoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private final UserDao userDao;
+	private final UsersDao userDao;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public LoginServlet() {
 		super();
-		this.userDao = new UserDao();
+		this.userDao = new UsersDao();
 	}
 
 	/**
@@ -51,10 +51,10 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 
-		String userName = request.getParameter("username");
+		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 
-		User user = new User(userName, password);
+		User user = new User(email, password);
 
 		if (userDao.validate(user)) {
 			session.setAttribute("user", user);
