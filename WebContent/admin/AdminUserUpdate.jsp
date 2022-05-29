@@ -8,7 +8,7 @@
 			const name = option.text();
 			if(name) {
 				const price = option.attr('plan-price');
-				$("#planNote").text(name + ' will cost ₹' + price + '/month');
+				$("#planNote").text(name + ' will cost ₹' + price + '/month.');
 			} else {
 				$("#planNote").text('Please Select the plan to see price.');
 			}
@@ -86,7 +86,13 @@
 						<c:if test="${plan.id.equals(user.planId)}">selected</c:if>>${plan.name}</option>
 				</c:forEach>
 			</select>
-			<div class="alert alert-primary mt-1 mb-0" role="alert" id="planNote"></div>
+			<div class="alert alert-primary mt-1 mb-0" role="alert">
+				<ul class="mb-0">
+					<li id="planNote"></li>
+					<li>Note: Any change in active plan will be applied from next
+						month.</li>
+				</ul>
+			</div>
 		</fieldset>
 
 		<button type="submit" class="btn btn-success">Save</button>

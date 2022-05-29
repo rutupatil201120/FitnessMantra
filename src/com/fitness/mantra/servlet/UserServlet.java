@@ -2,6 +2,7 @@ package com.fitness.mantra.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,8 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fitness.mantra.constants.CommonConstants;
+import com.fitness.mantra.dao.PaymentsDao;
 import com.fitness.mantra.dao.PlansDao;
 import com.fitness.mantra.dao.UsersDao;
+import com.fitness.mantra.model.Payment;
+import com.fitness.mantra.model.Plan;
 import com.fitness.mantra.model.User;
 
 /**
@@ -20,16 +24,18 @@ import com.fitness.mantra.model.User;
  * application, handling all requests from the user.
  */
 
-@WebServlet(urlPatterns = { "/user/", "/user/new", "/user/update" })
+@WebServlet(urlPatterns = { "/user/", "/user/new", "/user/update", "/user/payments" })
 public class UserServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private final UsersDao usersDao;
 	private final PlansDao plansDao;
+	private final PaymentsDao paymentsDao;
 
 	public UserServlet() {
 		usersDao = new UsersDao();
 		plansDao = new PlansDao();
+		paymentsDao = new PaymentsDao();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -54,6 +60,9 @@ public class UserServlet extends HttpServlet {
 			case "/user/update":
 				handleUpdate(request, response);
 				break;
+			case "/user/payments":
+				handlePayment(request, response);
+				break;
 			default:
 				showUserPage(request, response, null);
 				break;
@@ -77,20 +86,19 @@ public class UserServlet extends HttpServlet {
 		if (isPostRequest(request)) {
 			updateUser(request, response);
 		} else {
-			showEditForm(request, response);
+			showUserPage(request, response, "UserDetails.jsp");
 		}
+	}
+
+	private void handlePayment(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, ServletException, IOException {
+		User user = (User) request.getSession().getAttribute("user");
+		request.setAttribute("payments", paymentsDao.selectAllPayments(user.getId()));
+		showUserPage(request, response, "PaymentList.jsp");
 	}
 
 	private boolean isPostRequest(HttpServletRequest request) {
 		return "POST".equals(request.getMethod());
-	}
-
-	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, ServletException, IOException {
-		int id = Integer.parseInt(request.getParameter("id"));
-		User existingUser = usersDao.selectUser(id);
-		request.setAttribute("user", existingUser);
-		showUserPage(request, response, "UserForm.jsp");
 	}
 
 	private void insertUser(HttpServletRequest request, HttpServletResponse response)
@@ -98,6 +106,7 @@ public class UserServlet extends HttpServlet {
 		User user = new User(request);
 		if (!usersDao.checkIfUserExist(user)) {
 			usersDao.insertUser(user);
+			addPaymentEntry(request, user);
 			request.getSession().setAttribute("user", user);
 			redirectToHome(request, response);
 		} else {
@@ -106,6 +115,11 @@ public class UserServlet extends HttpServlet {
 			request.setAttribute("errorField", "email");
 			showUserPage(request, response, null);
 		}
+	}
+
+	private void addPaymentEntry(HttpServletRequest request, User user) {
+		Plan plan = plansDao.selectPlan(user.getPlanId());
+		paymentsDao.insertPayment(new Payment(user.getId(), plan.getPrice()));
 	}
 
 	private void updateUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {

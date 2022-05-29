@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fitness.mantra.constants.CommonConstants;
+import com.fitness.mantra.dao.PaymentsDao;
 import com.fitness.mantra.dao.PlansDao;
 import com.fitness.mantra.dao.UsersDao;
 import com.fitness.mantra.model.User;
@@ -21,16 +22,19 @@ import com.fitness.mantra.model.User;
  * application, handling all requests from the user.
  */
 
-@WebServlet(urlPatterns = { "/admin/", "/admin/user-list", "/admin/update-user", "/admin/delete-user" })
+@WebServlet(urlPatterns = { "/admin/", "/admin/user-list", "/admin/update-user", "/admin/update-user-status",
+		"/admin/payments" })
 public class AdminUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private final UsersDao userDao;
 	private final PlansDao plansDao;
+	private final PaymentsDao paymentsDao;
 
 	public AdminUserServlet() {
 		userDao = new UsersDao();
 		plansDao = new PlansDao();
+		paymentsDao = new PaymentsDao();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -49,14 +53,17 @@ public class AdminUserServlet extends HttpServlet {
 
 		try {
 			switch (action) {
-			case "/admin/delete-user":
-				deleteUser(request, response);
+			case "/admin/update-user-status":
+				updateStatus(request, response);
 				break;
 			case "/admin/update-user":
 				handleUpdate(request, response);
 				break;
 			case "/admin/user-list":
 				listUser(request, response);
+				break;
+			case "/admin/payments":
+				handlePayments(request, response);
 				break;
 			default:
 				adminHome(request, response);
@@ -74,6 +81,12 @@ public class AdminUserServlet extends HttpServlet {
 		} else {
 			showEditForm(request, response);
 		}
+	}
+
+	private void handlePayments(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, ServletException, IOException {
+		request.setAttribute("payments", paymentsDao.selectAllPayments());
+		showAdminPage(request, response, "AdminPayments.jsp");
 	}
 
 	private boolean isPostRequest(HttpServletRequest request) {
@@ -107,9 +120,11 @@ public class AdminUserServlet extends HttpServlet {
 		redirectToAdmin(request, response, "user-list");
 	}
 
-	private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+	private void updateStatus(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
-		userDao.deleteUser(id);
+		boolean status = Boolean.parseBoolean(request.getParameter("status"));
+		userDao.updateStatus(status, id);
 		redirectToAdmin(request, response, "user-list");
 	}
 

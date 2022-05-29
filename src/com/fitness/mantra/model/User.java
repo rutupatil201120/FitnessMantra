@@ -21,7 +21,8 @@ public class User {
 	private String timeSlot;
 	private Integer planId;
 	private String password;
-	private String isAdmin;
+	private boolean isActive;
+	private boolean isAdmin;
 
 	public User(String email, String password) {
 		super();
@@ -41,9 +42,4 @@ public class User {
 		this.planId = request.getParameter("planId") != null ? Integer.parseInt(request.getParameter("planId")) : null;
 		this.password = request.getParameter("password");
 	}
-
-	public boolean isAdmin() {
-		return "Y".equalsIgnoreCase(isAdmin);
-	}
-
 }

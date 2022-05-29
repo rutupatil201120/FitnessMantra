@@ -24,7 +24,8 @@
 body {
 	font-family: sans-serif;
 	user-select: none;
-	background: black
+	background: black;
+	overflow-x: hidden;
 }
 
 nav .logo {
@@ -109,17 +110,17 @@ section {
 	background: url(${pageContext.request.contextPath}/img/background.jpeg);
 	background-repeat: no-repeat;
 	background-size: cover;
-	height: 100vh;
+	height: fit-content;
+	min-height: 100%;
 	background-position: center;
 }
 </style>
 <body>
 	<nav>
 		<ul>
+			<li><a href="<%=request.getContextPath()%>/admin/payments">Payments</a></li>
 			<li><a href="<%=request.getContextPath()%>/admin/user-list">User
 					Details</a></li>
-			<li><a href="#">Payment History</a></li>
-			<li><a href="#">Equipment</a></li>
 			<li><a href="<%=request.getContextPath()%>/admin/plan-list">Plans</a></li>
 			<li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>
 		</ul>

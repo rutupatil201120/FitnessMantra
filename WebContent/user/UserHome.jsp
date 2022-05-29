@@ -25,6 +25,7 @@ body {
 	font-family: sans-serif;
 	user-select: none;
 	background: black;
+	overflow-x: hidden;
 }
 
 nav .logo {
@@ -110,6 +111,7 @@ section {
 	background-repeat: no-repeat;
 	background-size: cover;
 	height: fit-content;
+	min-height: 100%;
 	background-position: center;
 	margin-bottom: 5px;
 }
@@ -119,7 +121,7 @@ section {
 		<nav>
 			<ul>
 				<li><a href="<%=request.getContextPath()%>/user">My Details</a></li>
-				<li><a href="#">Payment History</a></li>
+				<li><a href="<%=request.getContextPath()%>/user/payments">Payment History</a></li>
 				<li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>
 			</ul>
 		</nav>

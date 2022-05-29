@@ -6,18 +6,24 @@
 	<form action="<%=request.getContextPath()%>/admin/update-plan"
 		method="post">
 
-		<h2 style="text-align: center;">Edit Plan</h2>
-
-		<input type="hidden" name="id" value="<c:out value='${plan.id}' />" />
+		<c:choose>
+			<c:when test="${plan.id != null}">
+				<h2 style="text-align: center;">Edit Plan</h2>
+				<input type="hidden" name="id" value="<c:out value='${plan.id}' />" />
+			</c:when>
+			<c:otherwise>
+				<h2 style="text-align: center;">New Plan</h2>
+			</c:otherwise>
+		</c:choose>
 
 		<fieldset class="form-group">
-			<label>First Name</label> <input type="text"
+			<label>Name</label> <input type="text"
 				value="<c:out value='${plan.name}' />" class="form-control"
 				name="name" required="required">
 		</fieldset>
 
 		<fieldset class="form-group">
-			<label>Last Name</label> <input type="number"
+			<label>Price</label> <input type="number"
 				value="<c:out value='${plan.price}' />" class="form-control"
 				name="price">
 		</fieldset>

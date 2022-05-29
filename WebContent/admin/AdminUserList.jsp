@@ -26,10 +26,20 @@
 						<td><c:out value="${user.firstName}" /></td>
 						<td><c:out value="${user.lastName}" /></td>
 						<td><c:out value="${user.email}" /></td>
-						<td><a
-							href="<%=request.getContextPath()%>/admin/update-user?id=<c:out value='${user.id}' />">Edit</a>
-							&nbsp;&nbsp;&nbsp;&nbsp; <a
-							href="<%=request.getContextPath()%>/admin/delete-user?id=<c:out value='${user.id}' />">Delete</a></td>
+						<td><c:if test="${user.active}">
+								<a
+									href="<%=request.getContextPath()%>/admin/update-user?id=<c:out value='${user.id}' />">Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;
+							</c:if> <a
+							href="<%=request.getContextPath()%>/admin/update-user-status?id=<c:out value='${user.id}' />&status=<c:out value='${!user.active}' />">
+								<c:choose>
+									<c:when test="${user.active}">
+										Deactivate
+									</c:when>
+									<c:otherwise>
+										Activate
+									</c:otherwise>
+								</c:choose>
+						</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

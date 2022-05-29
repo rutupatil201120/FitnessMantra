@@ -56,15 +56,18 @@ public class PlansDao extends BaseDao {
 		return user;
 	}
 
-	public boolean updatePlan(Plan user) {
+	public boolean updatePlan(Plan plan) {
 		boolean rowUpdated = false;
 		try (Connection connection = getConnection();
-				PreparedStatement statement = connection.prepareStatement(UPDATE_PLAN_BY_ID);) {
+				PreparedStatement statement = connection
+						.prepareStatement(plan.getId() == null ? INSERT_PLAN : UPDATE_PLAN_BY_ID);) {
 
-			statement.setString(1, user.getName());
-			statement.setInt(2, user.getPrice());
+			statement.setString(1, plan.getName());
+			statement.setDouble(2, plan.getPrice());
 
-			statement.setInt(3, user.getId());
+			if (plan.getId() != null) {
+				statement.setInt(3, plan.getId());
+			}
 
 			rowUpdated = statement.executeUpdate() > 0;
 		} catch (SQLException e) {
@@ -78,7 +81,7 @@ public class PlansDao extends BaseDao {
 				PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PLAN)) {
 
 			preparedStatement.setString(1, user.getName());
-			preparedStatement.setInt(2, user.getPrice());
+			preparedStatement.setDouble(2, user.getPrice());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -103,7 +106,7 @@ public class PlansDao extends BaseDao {
 
 		plan.setId(rs.getInt("id"));
 		plan.setName(rs.getString("name"));
-		plan.setPrice(rs.getInt("price"));
+		plan.setPrice(rs.getDouble("price"));
 
 		return plan;
 	}

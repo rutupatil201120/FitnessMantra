@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.fitness.mantra.dao.AdminsDao;
 import com.fitness.mantra.dao.UsersDao;
 import com.fitness.mantra.model.User;
 
@@ -20,6 +21,7 @@ public class LoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private final UsersDao userDao;
+	private final AdminsDao adminsDao;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -27,6 +29,7 @@ public class LoginServlet extends HttpServlet {
 	public LoginServlet() {
 		super();
 		this.userDao = new UsersDao();
+		this.adminsDao = new AdminsDao();
 	}
 
 	/**
@@ -56,8 +59,11 @@ public class LoginServlet extends HttpServlet {
 
 		User user = new User(email, password);
 
-		if (userDao.validate(user)) {
+		if (userDao.validate(user) || adminsDao.validate(user)) {
 			session.setAttribute("user", user);
+		} else {
+			throw new RuntimeException(
+					"Invalid email or password, or in case of deactivated users please contact gym for reactivation.");
 		}
 
 		redirectToHomePage(request, response);

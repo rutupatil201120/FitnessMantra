@@ -4,7 +4,10 @@
 <br>
 <div class="row">
 	<div class="container">
-		<h3 class="text-center">List of Plans</h3>
+		<div class="row justify-content-between px-3">
+			<h3 class="text-center">List of Plans</h3>
+			<a href="<%=request.getContextPath()%>/admin/new-plan">Add New</a>
+		</div>
 		<hr>
 		<br>
 		<table class="table table-bordered">

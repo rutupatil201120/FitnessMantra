@@ -12,13 +12,13 @@ import com.fitness.mantra.model.User;
 
 public class UsersDao extends BaseDao {
 
-	private static final String INSERT_USERS_SQL = "INSERT INTO users (first_name, last_name, contact_number, email, birth_date, gender, time_slot, plan_id, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String INSERT_USERS_SQL = "INSERT INTO users (first_name, last_name, contact_number, email, birth_date, gender, time_slot, plan_id, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, MD5(?))";
 	private static final String UPDATE_USERS_SQL = "update users set first_name= ?, last_name= ?, contact_number= ?, email= ?, birth_date= ?, gender= ?, time_slot= ?, plan_id= ? where id = ?";
-	private static final String DELETE_USERS_SQL = "delete from users where id = ?";
+	private static final String DEACTIVATE_USERS_SQL = "update users set is_active = ? where id = ?";
 
 	private static final String SELECT_USER_BY_ID = "select * from users where id =?";
-	private static final String SELECT_ALL_NON_ADMIN_USERS = "select * from users where is_admin='N'";
-	private static final String VALIDATE_USER = "select * from users where email = ? and password = ?";
+	private static final String SELECT_ALL_NON_ADMIN_USERS = "select * from users";
+	private static final String VALIDATE_USER = "select * from users where email = ? and password = MD5(?) and is_active = ?";
 	private static final String SELECT_USER_BY_EMAIL = "select * from users where email = ?";
 
 	public boolean validate(User user) {
@@ -28,6 +28,7 @@ public class UsersDao extends BaseDao {
 				PreparedStatement ps = connection.prepareStatement(VALIDATE_USER);) {
 			ps.setString(1, user.getEmail());
 			ps.setString(2, user.getPassword());
+			ps.setBoolean(3, true);
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
@@ -126,11 +127,13 @@ public class UsersDao extends BaseDao {
 		return users;
 	}
 
-	public boolean deleteUser(int id) {
+	public boolean updateStatus(boolean isActive, int id) {
 		boolean rowDeleted = false;
 		try (Connection connection = getConnection();
-				PreparedStatement statement = connection.prepareStatement(DELETE_USERS_SQL);) {
-			statement.setInt(1, id);
+				PreparedStatement statement = connection.prepareStatement(DEACTIVATE_USERS_SQL);) {
+			statement.setBoolean(1, isActive);
+			statement.setInt(2, id);
+
 			rowDeleted = statement.executeUpdate() > 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -175,7 +178,7 @@ public class UsersDao extends BaseDao {
 		user.setGender(rs.getString("gender"));
 		user.setTimeSlot(rs.getString("time_slot"));
 		user.setPlanId(rs.getInt("plan_id"));
-		user.setIsAdmin(rs.getString("is_admin"));
+		user.setActive(rs.getBoolean("is_active"));
 
 		return user;
 	}

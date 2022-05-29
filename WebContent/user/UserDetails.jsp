@@ -4,7 +4,6 @@
 <script>
 	$(document).ready(function() {
 		const errorMessage = '${errorMessage}';
-		
 		if(errorMessage) {
 			const errorField = $('[name=${errorField}]');
 			const errorValue = errorField.val();
@@ -17,12 +16,24 @@
 			errorField.on('change', setMessage)
 		}
 		
+		const userId = '${user.id}';
+		if(userId) {
+			let editFlag = false;
+			const toggleEditMode = () => {
+				editFlag = !editFlag;
+				$('.form-control').attr('disabled', editFlag);
+				$('.edit-toggle').toggle();
+			};
+			$('#editToggle,#cancel').on('click', toggleEditMode);	
+			toggleEditMode();
+		}
+		
 		const showPrice = () => {
 			const option = $('#planSelect').find(":selected");
 			const name = option.text();
 			if(name) {
 				const price = option.attr('plan-price');
-				$("#planNote").text(name + ' will cost ₹' + price + '/month');
+				$("#planNote").text(name + ' will cost ₹' + price + '/month.');
 			} else {
 				$("#planNote").text('Please Select the plan to see price.');
 			}
@@ -42,16 +53,18 @@
 			oninput='confirmPassword.setCustomValidity(confirmPassword.value != password.value ? "Passwords do not match." : "")'>
 	</c:if>
 
-	<h2 style="text-align: center;">
-		<c:if test="${user.id != null}">
-            			Edit User
-            		</c:if>
-		<c:if test="${user.id == null}">
-            			New User
-            		</c:if>
-	</h2>
-
 	<c:if test="${user.id != null}">
+		<div class="row justify-content-between px-3 edit-toggle"
+			style="display: none;">
+			<h2 style="text-align: center;">My Details</h2>
+			<input type="button" id="editToggle" class="btn btn-primary"
+				value="Edit">
+		</div>
+
+		<div class="row justify-content-center px-3 edit-toggle">
+			<h2 style="text-align: center;">Edit Details</h2>
+		</div>
+
 		<input type="hidden" name="id" value="<c:out value='${user.id}' />" />
 	</c:if>
 
@@ -114,7 +127,22 @@
 					<c:if test="${plan.id.equals(user.planId)}">selected</c:if>>${plan.name}</option>
 			</c:forEach>
 		</select>
-		<div class="alert alert-primary mt-1 mb-0" role="alert" id="planNote"></div>
+		<div class="alert alert-primary mt-1 mb-0" role="alert">
+			<ul class="mb-0">
+				<li id="planNote"></li>
+				<c:choose>
+					<c:when test="${user.id != null}">
+						<li>Note: Any change in active plan will be applied from next
+							month.</li>
+					</c:when>
+					<c:otherwise>
+						<li>Note: Subscribing to a plan before mid of month (15th
+							date) will incur full month charges and after will incur half the
+							price.</li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+		</div>
 	</fieldset>
 
 	<c:if test="${user.id == null}">
@@ -129,17 +157,25 @@
 		</fieldset>
 	</c:if>
 
-	<button type="submit" id="submit" onclick="submitCheck"
-		class="btn btn-success">
+	<button type="submit" class="btn btn-success edit-toggle">
 		<c:choose>
 			<c:when test="${user.id != null}">
 			Update
 		</c:when>
 			<c:otherwise>
-			Save
+			Register
 		</c:otherwise>
 		</c:choose>
 	</button>
+	&nbsp;&nbsp;&nbsp;&nbsp;
+	<c:choose>
+		<c:when test="${user.id != null}">
+			<a href="#" id="cancel" class="edit-toggle">Cancel</a>
+		</c:when>
+		<c:otherwise>
+			<a href="<%=request.getContextPath()%>">Cancel</a>
+		</c:otherwise>
+	</c:choose>
 
 	</form>
 </div>

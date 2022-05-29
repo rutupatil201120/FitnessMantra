@@ -19,7 +19,7 @@ import com.fitness.mantra.model.Plan;
  * application, handling all requests from the plan.
  */
 
-@WebServlet(urlPatterns = { "/admin/plan-list", "/admin/update-plan", "/admin/delete-plan" })
+@WebServlet(urlPatterns = { "/admin/plan-list", "/admin/new-plan", "/admin/update-plan", "/admin/delete-plan" })
 public class AdminPlanServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final PlansDao planDao;
@@ -47,6 +47,7 @@ public class AdminPlanServlet extends HttpServlet {
 			case "/admin/delete-plan":
 				deletePlan(request, response);
 				break;
+			case "/admin/new-plan":
 			case "/admin/update-plan":
 				handleUpdate(request, response);
 				break;
@@ -81,9 +82,11 @@ public class AdminPlanServlet extends HttpServlet {
 
 	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, ServletException, IOException {
-		int id = Integer.parseInt(request.getParameter("id"));
-		Plan existingPlan = planDao.selectPlan(id);
-		request.setAttribute("plan", existingPlan);
+		if (request.getParameter("id") != null) {
+			int id = Integer.parseInt(request.getParameter("id"));
+			Plan existingPlan = planDao.selectPlan(id);
+			request.setAttribute("plan", existingPlan);
+		}
 		showAdminPage(request, response, "AdminPlanUpdate.jsp");
 
 	}
